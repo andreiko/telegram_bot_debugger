@@ -1,0 +1,21 @@
+machine:
+  services:
+    - docker
+  environment:
+    DOCKER_REPOSITORY: andreiko/telegram-bot-debugger
+
+dependencies:
+  override:
+    go build -v -ldflags="-s -w"
+
+test:
+  override:
+    - echo noop
+
+deployment:
+  release:
+    branch: master
+    commands:
+      - docker login -u "${DOCKER_LOGIN}" -p "${DOCKER_PASSWORD}"
+      - docker build -t "${DOCKER_REPOSITORY}:$(git tag --points-at HEAD)" .
+      - docker push "${DOCKER_REPOSITORY}:$(git tag --points-at HEAD)"
