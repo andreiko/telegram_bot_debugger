@@ -6,7 +6,7 @@ machine:
 
 dependencies:
   override:
-    go build -v -ldflags="-s -w"
+    - go build -v -ldflags="-s -w"
 
 test:
   override:
