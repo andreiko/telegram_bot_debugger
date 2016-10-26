@@ -34,6 +34,7 @@ func NewDebugHandler(Prefix string) *DebugHandler {
 
 func writeTextResponse(response http.ResponseWriter, status int, message string) {
 	response.Header()["Content-Type"] = []string{"text/plain"}
+	response.Header()["X-Version"] = []string{Version}
 	response.WriteHeader(status)
 	io.WriteString(response, message)
 }
@@ -56,6 +57,7 @@ func (handler *DebugHandler) HandleWebhook(response http.ResponseWriter, request
 
 func (handler *DebugHandler) HandleDisplay(response http.ResponseWriter, request *http.Request) {
 	response.Header()["Content-Type"] = []string{"text/plain"}
+	response.Header()["X-Version"] = []string{Version}
 	response.WriteHeader(200)
 
 	handler.Ring.Do(func(value interface{}) {
